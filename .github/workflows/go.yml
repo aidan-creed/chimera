@@ -1,0 +1,43 @@
+name: Go CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build, Vet, Fmt, and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'backend/go.mod'
+          cache-dependency-path: 'backend/go.sum'
+
+      - name: Go Fmt Check
+        run: |
+          cd backend
+          gofmt_output=$(gofmt -l -d .)
+          if [[ -n "$gofmt_output" ]]; then
+            echo "::error file=gofmt-check.log::Code is not formatted. Please run 'go fmt ./...' on the following files:"
+            echo "$gofmt_output"
+            exit 1
+          fi
+
+      - name: Go Vet
+        run: |
+          cd backend
+          go vet ./...
+
+      - name: Go Test
+        run: |
+          cd backend
+          go test -race -v ./...

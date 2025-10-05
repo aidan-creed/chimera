@@ -1,0 +1,50 @@
+# /backend/configs/ingestion/insurance/policyholders.yaml
+
+# Unique identifier for this report type.
+report_type: "POLICYHOLDERS"
+
+# A new, specific item_type for this structured data.
+item_type: "POLICYHOLDER"
+
+# The unique business key for each policyholder.
+business_key:
+  - "PolicyHolder_ID"
+
+column_mappings:
+  - csv_header: "PolicyHolder_ID"
+    json_field: "PolicyHolder_ID"
+    validation:
+      required: true
+
+  - csv_header: "PolicyHolder_Name"
+    json_field: "PolicyHolder_Name"
+    validation:
+      required: true
+
+  - csv_header: "City"
+    json_field: "City"
+    validation:
+      required: false
+
+  - csv_header: "State"
+    json_field: "scope"
+    validation:
+      required: true
+
+  - csv_header: "Customer_Since_Date"
+    json_field: "Customer_Since_Date"
+    attempts:
+      - transforms:
+          - "to_date:2006-01-02"
+    validation:
+      required: false
+
+  - csv_header: "Customer_Level"
+    json_field: "Customer_Level"
+    validation:
+      required: false
+
+  - csv_header: "Active_Policies"
+    json_field: "Active_Policies"
+    validation:
+      required: false

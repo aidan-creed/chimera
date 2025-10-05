@@ -1,0 +1,61 @@
+# /backend/configs/ingestion/insurance/homeowner_policy_chunks.yaml
+
+# Unique identifier for this report type.
+report_type: "HOMEOWNER_POLICY_CHUNKS"
+
+# We're adding this to our KNOWLEDGE_CHUNK corpus.
+item_type: "KNOWLEDGE_CHUNK"
+
+# Composite business key for uniqueness.
+business_key:
+  - "metadata.document_id"
+  - "metadata.chunk_number"
+
+# The 'chunked text' is what we'll embed for the AI.
+embed_content:
+  source_columns:
+    - "chunk_text"
+
+column_mappings:
+
+  - csv_header: "document name"
+    json_field: "scope"
+    validation:
+      required: true
+
+  - csv_header: "document id"
+    json_field: "metadata.document_id"
+    validation:
+      required: true
+
+  - csv_header: "chunk number"
+    json_field: "metadata.chunk_number"
+    attempts:
+      - transforms:
+          - "to_integer"
+    validation:
+      required: true
+
+  - csv_header: "last updated"
+    json_field: "metadata.last_update"
+    attempts:
+      - transforms:
+          # This layout matches the "1-Jan-25" format from your CSV.
+          - "to_date:2-Jan-06"
+    validation:
+      required: false
+
+  - csv_header: "section"
+    json_field: "metadata.section"
+    validation:
+      required: false
+
+  - csv_header: "custom properties"
+    json_field: "metadata.source_custom_properties"
+    validation:
+      required: false
+
+  - csv_header: "chunked text"
+    json_field: "chunk_text"
+    validation:
+      required: true

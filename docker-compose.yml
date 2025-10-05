@@ -1,0 +1,55 @@
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg15
+    container_name: chimera-db
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpassword
+      POSTGRES_DB: testdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - chimera:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U testuser -d testdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend-service:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: chimera-backend
+    environment:
+      APP_ENV: development-json
+      DATABASE_URL: postgres://testuser:testpassword@postgres:5432/testdb?sslmode=disable
+      EMBEDDING_SERVICE_URL: http://embedding-service:5001/embed
+      AI_API_KEY: ${AI_API_KEY}
+      GCS_BUCKET_NAME: ${GCS_BUCKET_NAME}
+      IDENTITY_PROVIDER_DOMAIN: ${IDENTITY_PROVIDER_DOMAIN}
+      IDENTITY_PROVIDER_AUDIENCE: ${IDENTITY_PROVIDER_AUDIENCE}
+      SENTRY_DSN: ${SENTRY_DSN}
+      GOOGLE_APPLICATION_CREDENTIALS: /etc/gcloud/gcs-key.json
+      LLM_URL: ${LLM_URL}
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      embedding-service:
+        condition: service_started
+    volumes:
+      - ./gcp_service_account.json:/etc/gcloud/gcs-key.json
+      - ./backend/configs:/app/backend/configs
+  embedding-service:
+    build:
+      context: ./backend/services/embedding-service
+      dockerfile: Dockerfile
+    container_name: chimera-embedding-service
+    ports:
+      - "5001:5001"
+
+volumes:
+  chimera_postgres_data:

@@ -1,0 +1,73 @@
+# /backend/configs/ingestion/insurance/claims.yaml
+
+# Unique identifier for this report type.
+report_type: "CLAIMS"
+
+# A new item_type for our claims data.
+item_type: "INSURANCE_CLAIM"
+
+# The unique business key for each claim.
+business_key:
+  - "Claim_ID"
+
+# We'll embed the description of the loss to enable semantic search on claims.
+embed_content:
+  source_columns:
+    - "Description_of_Loss"
+
+column_mappings:
+  - csv_header: "Policy_Number"
+    json_field: "scope"
+    validation:
+      required: true
+
+
+  - csv_header: "Claim_ID"
+    json_field: "Claim_ID"
+    validation:
+      required: true
+
+  - csv_header: "PolicyHolder_ID"
+    json_field: "PolicyHolder_ID"
+    validation:
+      required: true
+
+  - csv_header: "Claim_Type"
+    json_field: "Claim_Type"
+    validation:
+      required: true
+
+  - csv_header: "Date_of_Loss"
+    json_field: "Date_of_Loss"
+    attempts:
+      - transforms:
+          - "to_date:2006-01-02"
+      - transforms:
+          - "to_date:01/02/2006"
+      - transforms:
+          - "to_date:1/2/2006"
+    validation:
+      required: true
+
+  - csv_header: "Description_of_Loss"
+    json_field: "Description_of_Loss"
+    validation:
+      required: false
+
+  - csv_header: "Claim_Amount"
+    json_field: "Claim_Amount"
+    attempts:
+      - transforms:
+          - "to_decimal"
+    validation:
+      required: true
+
+  - csv_header: "Status"
+    json_field: "Status"
+    validation:
+      required: true
+
+  - csv_header: "Adjuster_Assigned"
+    json_field: "Adjuster_Assigned"
+    validation:
+      required: false

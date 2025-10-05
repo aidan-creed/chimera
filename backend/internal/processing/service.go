@@ -11,14 +11,14 @@ import (
 	"time"
 
 	"cloud.google.com/go/storage"
-	"github.com/jjckrbbt/chimera/backend/internal/config"
-	"github.com/jjckrbbt/chimera/backend/internal/ingestion"
-	"github.com/jjckrbbt/chimera/backend/internal/interfaces"
-	"github.com/jjckrbbt/chimera/backend/internal/repository"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool" // Import the pgxpool package
+	"github.com/jjckrbbt/chimera/backend/internal/config"
+	"github.com/jjckrbbt/chimera/backend/internal/ingestion"
+	"github.com/jjckrbbt/chimera/backend/internal/interfaces"
+	"github.com/jjckrbbt/chimera/backend/internal/repository"
 )
 
 // Service orchestrates the processing of an ingestion job.

@@ -15,9 +15,9 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jjckrbbt/chimera/backend/internal/apps/insurance"
 	"github.com/jjckrbbt/chimera/backend/internal/repository"
-	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/labstack/echo/v4"
 	"github.com/pgvector/pgvector-go"
 	"github.com/shopspring/decimal"

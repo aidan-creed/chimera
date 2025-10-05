@@ -27,7 +27,7 @@ func NewUploadHandler(is *ingestion.Service, ps *processing.Service, ragSvc *rag
 	return &UploadHandler{
 		ingestionService:  is,
 		processingService: ps,
-		ragService:       ragSvc,
+		ragService:        ragSvc,
 		configLoader:      cl,
 		logger:            logger,
 	}

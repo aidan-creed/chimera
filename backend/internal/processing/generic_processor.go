@@ -9,9 +9,9 @@ import (
 	"log/slog"
 	"strings"
 
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jjckrbbt/chimera/backend/internal/interfaces"
 	"github.com/jjckrbbt/chimera/backend/internal/repository"
-	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/pgvector/pgvector-go"
 )
 

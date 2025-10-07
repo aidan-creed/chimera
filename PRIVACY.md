@@ -52,6 +52,7 @@ We do NOT:
 - Share your character data with other users
 - Provide your query history to anyone else
 - Use your data for advertising
+
 We MAY share anonymized, aggregated statistics publicly (e.g., "10,000 market queries processed today") but never individual user data.
 
 ## Data Retention
@@ -66,6 +67,7 @@ You can:
 - Request deletion of your account and associated data
 - Revoke ESI permissios at any time
 - Opt our of usage analytics (with reduced functionality)
+
 Contact [tbd] to exercise these rights.
 
 ## Security
@@ -74,6 +76,7 @@ We implement industry-standard security practices:
 - Secure credential storage
 - Regular security audits
 - Access logging and monitoring
+
 However, no system is perfectly secure. We will notify you promptly of any data breach affecting your account. 
 
 ## Changes to This Policy
